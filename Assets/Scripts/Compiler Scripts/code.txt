@@ -1,0 +1,174 @@
+
+effect
+{
+            Name: "Aumento",
+            Params:
+	    {
+                Amount: Number
+            },
+            Action: (targets, context) =>
+	    {
+                for target in targets
+		{
+                    j = 0;
+                    while (j < Amount)
+		     {
+                        target.Power += 1;
+                        j += 1;
+                    }
+                };
+            }
+}
+ 
+ effect
+{
+            Name: "Draw",
+            Action: (targets, context) =>
+	   {
+                topCard = context.Deck.Pop();
+                context.Hand.Add(topCard);
+                context.Hand.Shuffle();
+            }
+}
+ 
+effect
+{
+            Name: "ReturnToDeck",
+            Action: (targets, context) =>
+	  {
+                for target in targets
+		{
+                    deck = context.Deck;
+                    deck.Push(target);
+                    deck.Shuffle();
+                    context.RemoveCard(target);
+                };
+            }
+}
+
+	 card
+    {
+        Type: "Oro",
+        Name: "Drogo",
+        Faction: "Elementales",
+        Power: 10,
+        Range: ["M", "R"],
+        OnActivation:
+        [
+            {
+                Effect:
+                {
+                    Name: "Draw",
+                },
+            },
+        ]
+    }  
+    card
+    {
+        Type: "Oro",
+        Name: "El Fabio",
+        Faction: "Elementales",
+        Power: 10,
+        Range: ["M", "R"],
+        OnActivation:
+        [
+            {
+                Effect:
+                {
+                    Name: "Draw",
+                },
+            },
+        ]
+    }   
+    card
+    {
+        Type: "Oro",
+        Name: "El Plus",
+        Faction: "Elementales",
+        Power: 10,
+        Range: ["M", "R"],
+        OnActivation:
+        [
+            {
+                Effect:
+                {
+                    Name: "ReturnToDeck",
+                },
+                Selector:
+                {
+                    Source: "board",
+                    Single: false,
+                    Predicate: (unit) => unit.Power  < 4 
+                },
+            },
+        ]
+    }  
+    card
+    {
+        Type: "Oro",
+        Name: "El Rey",
+        Faction: "Elementales",
+        Power: 10,
+        Range: ["M", "R"],
+        OnActivation:
+        [
+            {
+                Effect:
+                {
+
+Name: "ReturnToDeck",
+                },
+                Selector:
+                {
+                    Source: "board",
+                    Single: false,
+                    Predicate: (unit) =>  unit.Power  < 4
+                }, 
+            },
+        ]
+    }  
+    card
+    {
+        Type: "Aumento",
+        Name: "AumenticoRico",
+        Faction: "Elementales",
+        OnActivation:
+        [
+            {
+                Effect:
+                {
+                    Name: "Aumento",
+                    Amount: 2,
+                },
+                Selector:
+                {
+                    Source: "board",
+                    Single: false,
+                    Predicate: (unit) => unit.Faction == "Elementales"
+                },
+    
+            },
+        ]
+    }  
+    card
+    {
+        Type: "Aumento",
+        Name: "AumentoCel",
+        Faction: "Elementales",
+        OnActivation:
+        [
+            {
+                Effect:
+                {
+                    Name: "Aumento",
+                    Amount: 2,
+                },
+                Selector:
+                {
+                    Source: "board",
+                    Single: false,
+                    Predicate: (unit) => unit.Faction == "Elementales"
+                },
+            },
+        ]
+    }
